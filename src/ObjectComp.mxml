@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<mx:Object xmlns:mx="http://www.adobe.com/2006/mxml" 
+    implements="mx.core.IMXMLObject">
+
+    <mx:Script>
+        <![CDATA[
+        
+            // Implement the IMXMLObject.initialized() method.
+            public function initialized(document:Object, id:String):void {
+                trace("initialized, x = " + x);
+            } 
+        ]]>
+    </mx:Script>
+
+    <mx:Number id="y"/>
+    <mx:Number id="z"/>
+    <mx:Number id="x"/>
+</mx:Object>

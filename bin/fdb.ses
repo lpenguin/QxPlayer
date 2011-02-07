@@ -1,0 +1,5 @@
+[General]
+SwfPath=/home/prian/Projects/Dropbox/Public/Flex/QxPlayer/bin/QxPlayer.swf
+SourceDirs=/home/prian/Projects/Dropbox/Public/Flex/QxPlayer/src
+OpenedSources=/home/prian/Projects/Dropbox/Public/Flex/QxPlayer/src/QuestPlayer/Player.as
+Breakpoints="136;/home/prian/Projects/Dropbox/Public/Flex/QxPlayer/src/QuestPlayer/Player.as"
