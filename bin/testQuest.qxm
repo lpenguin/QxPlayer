@@ -1,14 +1,13 @@
-{"actions":"var global=0\nvar globalMax = 5;\nfunction stateAdd( string ){\t\n\tstate+= string;\t\n\tstate+=\"\\n\";\n}\nAddTrigger(function(){\t\n\tstate = \"\";\n}, \"start\", \"clear\");\n\nAddTrigger(function(){\t\n\tstateAdd(\"location: \"+location.id);\n\tstateAdd(\"global \"+global);\n}, \"start\", \"location\");\n\nAddTrigger(function(){\t\n\tif( !path )\n\t\tglobal++;\n}, \"start\", \"gl\");\n\nAddTrigger(function(){\t\n\tif( global > globalMax ){\n\t\tstateAdd(\"max global\");\n\t\tgoto(\"maxGlobal\");\n\t\tglobalMax = 10000;\n\t}\n}, \"stop\", \"glCh\");",
+{"actions":"var global=0\n\nfunction PlayTriggers(){\n\tfor( var i in triggers){\n\t\ttriggers[i].func();\n\t}\n}\n\nfunction stateAdd( string ){\t\n\tstate+= string;\t\n\tstate+=\"\";\n}\nAddTrigger(function(){\t\n\tstate = \"\";\n}, \"clear\");\n\nAddTrigger(function(){\t\n\tstateAdd(\"location: \"+location.id);\n}, \"location\");\n",
  "name":"",
- "libraries": ["main.es"],
  "description":"",
  "vers":[
   {"id":"L1",
    "actions":"",
-   "text":"Hello World привет!!",
+   "text":"Hello World",
    "type":"start",
-   "x":"93",
-   "y":"211",
+   "x":"232",
+   "y":"244",
    "edges":[
    {"id":"P1",
     "actions":"",
@@ -45,8 +44,8 @@
    "actions":"",
    "text":"on loc L3",
    "type":"odinary",
-   "x":"223",
-   "y":"28",
+   "x":"413",
+   "y":"146",
    "edges":[
    {"id":"P3",
     "actions":"",
@@ -66,13 +65,5 @@
    "type":"win",
    "x":"581",
    "y":"133",
-   "edges":[
-   ]},
-  {"id":"maxGlobal",
-   "actions":"",
-   "text":"GLOBALLLL",
-   "type":"odinary",
-   "x":"181",
-   "y":"299",
    "edges":[
    ]}]}
