@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<project name="RunInIDE" default="QxPlayer" basedir=".">
-    <target name="QxPlayer">
-        <exec executable="make"></exec>
-    </target>
-</project>
