@@ -8,13 +8,13 @@ package QuestPlayer.Quest
 	 
 	public class Path 
 	{
-		private var _id:String;
-		private var _question:String;
-		private var _text:String;
-		private var _actions:String;
-		private var _conditions:String;
-		private var _nextLocation:Location;
-		private var _initActions:String;
+        private var _id:String;
+        private var _question:String;
+        private var _text:String;
+        private var _actions:String;
+        private var _conditions:String;
+        private var _nextLocation:Location;
+        private var _initActions:String;
 
 		public function Path(id:String, question:String, text:String, actions:String, initActions:String, conditions:String, nextLocation:Location) 
 		{

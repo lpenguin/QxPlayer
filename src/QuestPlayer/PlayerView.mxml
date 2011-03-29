@@ -68,10 +68,10 @@
 	        <mx:Text id="storyTextComp" width="600" height="400"/>
 	        <mx:Text id="stateTextComp" width="200" height="400"/>
 	    </s:HGroup>
-        <s:HGroup width="800" height="300">
+        <s:HGroup width="800" height="200">
             <s:List id="actionChooser" width="70%"  height="100%" dataProvider="{actionsArrayCollection}"
             change="lst_changeHandler(event)"/>
-            <mx:Text id="traceText" width="30%" height="100%"/>
+            <mx:TextArea id="traceText" width="30%" height="100%" verticalScrollPolicy="on"/>
         </s:HGroup>
     </s:VGroup>
         

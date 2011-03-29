@@ -56,7 +56,7 @@ package QuestPlayer
                 if( !path.conditions )
                     return true;
                 var n = eval( path.conditions, {"path" : path} );
-                myTrace("for path "+path.id+" "+n);
+                //myTrace("for path "+path.id+" "+n);
                 return n;
             }
 			_quest.Reset();
@@ -96,6 +96,9 @@ package QuestPlayer
 		
 		private function exposeDefinitions():void {
 			D.importFunction("trace", myTrace);
+            D.importFunction("typeof", function(v){
+                return typeof(v);
+            });
 //			_context.exposeDefinition(_local, "local");
 //			_context.exposeDefinition(myTrace, "trace");
 //			_context.exposeDefinition(_playerView.text, "text");
