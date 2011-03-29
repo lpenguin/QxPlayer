@@ -13,28 +13,17 @@ package QuestPlayer
 	import QuestPlayer.PlayerContext;
 	import r1.deval.D;
 	import r1.deval.rt.RTError;
-	
+	import r1.deval.parser.ParseError;
 
 	public class Player extends EventDispatcher
 	{
 		private var _playerView:IPlayerView;
 		private var _context:PlayerContext;
 		private var _quest:Quest = new Quest;
-
+        private var _libraries:Array = new Array;
+        
 		private var _local:Object = new Object;
 		
-//		public function set quest( :String ):void{
-//			_questPath = path;
-//			var tempContext:ScriptContext = new ScriptContext();
-//			
-//			Load( path, function( data:String ):void {
-//				Play();
-//			} );
-//			
-//		}
-//		public function get questPath( ):String{
-//			return _questPath;
-//		}
 		private function UpdateContext(text:String, stateText:String = null):void{
 			if( text != null )
 				_context.text = text;
@@ -62,14 +51,23 @@ package QuestPlayer
 		}
 		
 		public function Reset():void{
-			_context =  new PlayerContext(this)
+			_context = new PlayerContext(this)
+            _context.checkConditions = function( path:Path ){
+                if( !path.conditions )
+                    return true;
+                var n = eval( path.conditions, {"path" : path} );
+                myTrace("for path "+path.id+" "+n);
+                return n;
+            }
 			_quest.Reset();
 			exposeDefinitions();
 		}
 		
-		public function Load( jsonObject:Object ):void{//path:String, onLoadFunction:Function ):void{
+		public function Load( jsonObject:Object, libraries:Array ):void{//path:String, onLoadFunction:Function ):void{
 			Reset();
+            _libraries = libraries;
 			_quest.Load( jsonObject );
+            
 		}
 		
 		public function Player(playerView:IPlayerView = null, jsonQuest:Object = null) 
@@ -78,6 +76,7 @@ package QuestPlayer
 			_playerView = playerView;
 			if( playerView )
 				_playerView.addEventListener( PlayerActionEvent.ACTION, actionHandler);
+            exposeDefinitions();
 		}
 		
 		public function Play():void {
@@ -86,11 +85,14 @@ package QuestPlayer
 			if( !loc )
 				throw Error("Cannot find start location");
 				
-			//making global actions
+            for( var i in _libraries )
+                playGlobalActions( _libraries[i] );
+            initQuest();
 			playGlobalActions( _quest.actions );
 			ShowLocation( loc );
 			
 		}
+		
 		
 		private function exposeDefinitions():void {
 			D.importFunction("trace", myTrace);
@@ -100,32 +102,52 @@ package QuestPlayer
 //			_context.exposeDefinition(_playerView.stateText, "state");
 		}
 		
-		private function playGlobalActions(actions:String):void {
-			try{
-				D.eval( actions, _context);
-			}
-			catch (e:r1.deval.rt.RTError) {
-				trace( e.message );
-			}
-		}
+
 		
+		private function initQuest():void{
+            playGlobalActions( _quest.initActions );
+            for( var i in _quest.locations ){
+                var loc:Location = _quest.locations[i];
+                playLocalActions( loc.initActions, {"location":loc});
+                for( var j in loc.paths ){
+                    var path:Path = loc.paths[i];
+                    playLocalActions( loc.initActions, {"path":path});
+                }
+            }
+        }
+        
 		public function myTrace( str:String ):void {
-			trace( str );
+			//s.controls.Alert.show( str );
+			_playerView.showMsg( str );
+            trace( str );
 		}
+		private function eval( actions:String, thisObject:Object = null ):*{
+//             if( thisObject == null)
+//                 thisObject = {};
+            try{
+                return D.eval( actions, _context, thisObject );
+            }
+            catch (e:r1.deval.rt.RTError) {
+                myTrace( "Error: " + e.lineno+" "+ e.message+"\n"+actions );
+            }catch (e:r1.deval.parser.ParseError) {
+                myTrace( "Error: " + e.lineno+" "+ e.message+"\n"+actions );
+            }catch (e:Error) {
+                myTrace( "Error: " + e.message+"\n"+actions );
+            }
+        }
+        private function playGlobalActions(actions:String):void {
+            eval( actions, _context );
+        }
 		private function playLocalActions( actions:String, thisObject:Object ):void {
-			try {
-				D.eval( "PlayTriggers();", _context, thisObject );
-				D.eval( localSyntax( actions ), _context, thisObject );
-			}
-			catch (e:Error) {
-				trace( e.message );
-			}
+            eval( "onStartExecActions();", thisObject );
+            eval( actions, thisObject );
+            eval( "onStopExecActions();", thisObject );
 		}
-		private function localSyntax( actions:String ):String {
-			return actions;
-			return "this.localActions = function(){"+actions+"};\n"+
-				   "this.localActions();"
-		}
+// 		private function localSyntax( actions:String ):String {
+// 			return actions;
+// 			return "this.localActions = function(){"+actions+"};\n"+
+// 				   "this.localActions();"
+// 		}
 
 		private function ClearView():void {
 			_playerView.text = "";
@@ -135,8 +157,13 @@ package QuestPlayer
 		private function ShowLocation( loc:Location ):void{
 			ClearView();
 			UpdateContext( loc.text );
-			
-			for( var i:String in loc.paths ){
+            var paths:Array;
+            try{
+                paths = eval( "locationPaths( location );", { "location":loc }) as Array;
+            }catch(e:Error){
+                myTrace(e.message);
+            }
+			for( var i:String in paths ){
 				_playerView.addAction( new PlayerAction( loc.paths[i] as Path));
 			}
 			playLocalActions( loc.actions, { "location":loc } );
@@ -150,7 +177,7 @@ package QuestPlayer
 			playLocalActions( path.actions, { "path":path } );
 			ReadContext();
 			if ( _context.text ) {
-				_playerView.addAction( new PlayerAction( new Path( "tmp", "next>>", "", "", "", path.nextLocation ) ) );
+				_playerView.addAction( new PlayerAction( new Path( "tmp", "next>>", "", "", "", "", path.nextLocation ) ) );
 			}else
 				ShowLocation( path.nextLocation );
 		}

@@ -14,13 +14,16 @@ package QuestPlayer.Quest
 		private var _actions:String;
 		private var _name:String;
 		private var _description:String;
-		
+		private var _initActions:String;
+//         private var _libraries:Array;
+        
 		public function Quest( jsonObject:Object = null ) 
 		{
 			if( jsonObject )
 				Load( jsonObject );
 		}
 		
+       
 		public function Load( jsonObject:Object ):void {
 			Reset();
 			
@@ -30,8 +33,10 @@ package QuestPlayer.Quest
 			_name = jsonObject["name"];
 			_description = jsonObject["description"];
 			_actions = jsonObject["actions"];
+            _initActions = jsonObject["init"];
 		}
 		
+        
 		private function LoadLocations( locationsArray:Array ):void {
 			for ( var i:String in locationsArray ) {
 				_locations.push( LoadLocation( locationsArray[i] ) );
@@ -39,7 +44,7 @@ package QuestPlayer.Quest
 		}
 		
 		private function LoadLocation( jsonObject:Object ):Location{
-			return new Location( jsonObject['id'], jsonObject['question'], jsonObject['text'], jsonObject['type'], jsonObject['actions'] );
+			return new Location( jsonObject['id'], jsonObject['question'], jsonObject['text'], jsonObject['type'], jsonObject['actions'], jsonObject['init'] );
 		}
 		
 		private function LoadPaths( locationsArray:Array ):void{
@@ -59,7 +64,7 @@ package QuestPlayer.Quest
 			if( loc == null)
 				throw Error("Location '"+locId+"' not found");
 			//id:String, question:String, text:String, actions:String, conditions:String, nextLocation:Location
-			return new Path(jsonObject["id"], jsonObject["question"], jsonObject['text'], jsonObject['actions'], jsonObject['conditions'], loc);
+			return new Path(jsonObject["id"], jsonObject["question"], jsonObject['text'], jsonObject['actions'], jsonObject['init'], jsonObject['conditions'], loc);
 		}
 		
 		public function Reset():void {
@@ -105,7 +110,22 @@ package QuestPlayer.Quest
 		{
 			return _description;
 		}
-
+		
+        public function get initActions():String{
+          return _initActions;
+        }
+        
+//         public function set initActions( value:String ):void{
+//           _initActions = value;
+//         }
+        
+//         public function get libraries():Array{
+//             return _libraries;
+//         }
+//         
+//         public function set libraries( value:Array ):void{
+//             _libraries = libraries;
+//         }
 	}
 
 }

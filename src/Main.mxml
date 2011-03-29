@@ -2,25 +2,48 @@
 <s:Application 
 	xmlns:fx="http://ns.adobe.com/mxml/2009" 
 	xmlns:s="library://ns.adobe.com/flex/spark"
-	xmlns:mx="library://ns.adobe.com/flex/mx"  
+	xmlns:mx="library://ns.adobe.com/flex/mx"
 	xmlns:cmp="QuestPlayer.*"  
 	width="800" height="600"
 	usePreloader="false"
 	initialize="init();">
+    
 <!--	<fx:Script>
         <![CDATA[
             import mx.controls.Alert;
             import mx.events.CloseEvent;
-	    private function init():void {
-		Alert.show(Security.sandboxType, 'seq');
+            import mx.managers.PopUpManager; 
+            import mx.containers.TitleWindow; 
+            private function init():void {
+                mx.controls.Alert("init");
 
             }
 
 	 ]]>
 	</fx:Script>-->
+   <!-- <mx:Style source="assets/css/styles.css"/>-->
+<!--    <fx:Script>
+        <![CDATA[
+            private function closeWindow( event:Event ):void 
+            {
+                superPanelPlus.alpha = 0;
+                superPanelPlus.visible = false;
+                superPanelPlus.includeInLayout = false;
+            }
+            
+            private function showWindow( event:Event ):void 
+            {
+                superPanelPlus.alpha = 1;
+                superPanelPlus.visible = true;
+                superPanelPlus.includeInLayout = true;
+            }
+        ]]>
+    </fx:Script>-->
+    
+
 	<fx:Declarations>
 		<cmp:Player id="player" playerView="{playerView}" />
-		<cmp:PlayerLoader player="{player}" path="testQuest.qxm" /> 
+		<cmp:PlayerLoader player="{player}" path="Gobsaur.json" /> 
 	<!--<cmp:PlayerLoader player="{player}" path="http://dl.dropbox.com/u/1305309/Flex/QxPlayer/bin/testQuest.qxm" />-->
 	</fx:Declarations>
     <cmp:PlayerView id="playerView"/>

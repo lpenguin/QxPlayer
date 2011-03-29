@@ -17,7 +17,7 @@ package QuestPlayer
 		private var _path:String;
 		private var _player:Player;
 		private var _data:Object;
-		
+		private var _libraries:Array = new Array();
 		public function get data():Object {
 			return _data;
 		}
@@ -40,15 +40,37 @@ package QuestPlayer
 			Load( path );
 		}
 		
+		public function LoadLibraries( libs:Array, onComplete:Function ):void{
+            var lib:String = libs.shift();
+            if( !lib ){
+                onComplete();
+                return;
+            }
+            var loader:URLLoader = new URLLoader();
+            loader.addEventListener(Event.COMPLETE, function( event:Event ):void{
+                _libraries.push( loader.data );
+                LoadLibraries( libs, onComplete );
+            });
+            loader.load(new URLRequest(lib));
+            
+        }
+		
 		public function Load( path:String ):void {
+            _libraries = new Array();
 			var loader:URLLoader = new URLLoader();
             loader.addEventListener(Event.COMPLETE, function( event:Event ):void{
             	var dataStr:String = loader.data;
             	_data = JSON.deserialize(loader.data);
-				if( _player ){
-					 _player.Load( _data );
-					 _player.Play();
-				}
+                var libPaths:Array = _data["libraries"] as Array;
+                if( libPaths ){
+                    LoadLibraries( libPaths, function():void{
+                        if( _player ){
+                            _player.Load( _data, _libraries );
+                            _player.Play();
+                        }
+                    });
+                }
+
             	
             	
             	

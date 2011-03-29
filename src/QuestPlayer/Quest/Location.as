@@ -12,8 +12,11 @@ package QuestPlayer.Quest
 		private var _type:String;
 		private var _actions:String;
 		private var _paths:Array;
-		
-		public function Location(id:String = null, question:String = null, text:String = null, type:String = null, actions:String = null, paths:Array = null) 
+		private var _initActions:String;
+                
+		public function Location(id:String = null, question:String = null, text:String = null, type:String = null, actions:String = null, 
+          initActions:String = null,
+          paths:Array = null) 
 		{
 			_actions = actions;
 			_text = text;
@@ -24,8 +27,17 @@ package QuestPlayer.Quest
 			else	
 				_paths = new Array;
 			_type = type;
+            _initActions = initActions;
 		}
 		
+		public function get initActions():String{
+          return _initActions;
+        }
+        
+//         public function set initActions( value:String ):void{
+//           _initActions = value;
+//         }
+        
 		public function addPath( path:Path ):void {
 			_paths.push( path );
 		}

@@ -18,8 +18,13 @@
     	import QuestPlayer.PlayerAction;
     	import QuestPlayer.Quest.*;
 		import mx.events.ItemClickEvent;
+        import mx.controls.Alert;
 		import spark.events.IndexChangeEvent;
 
+        public function showMsg(str:String):void{
+            traceText.htmlText += str +"\n";
+        }
+        
     	public function init():void {
 			trace("init");
 			actionChooser.addEventListener(ItemClickEvent.ITEM_CLICK, lst_itemClickHandler);
@@ -63,8 +68,11 @@
 	        <mx:Text id="storyTextComp" width="600" height="400"/>
 	        <mx:Text id="stateTextComp" width="200" height="400"/>
 	    </s:HGroup>
-    	<s:List id="actionChooser" width="800" height="300" dataProvider="{actionsArrayCollection}"
-		change="lst_changeHandler(event)"/>
+        <s:HGroup width="800" height="300">
+            <s:List id="actionChooser" width="70%"  height="100%" dataProvider="{actionsArrayCollection}"
+            change="lst_changeHandler(event)"/>
+            <mx:Text id="traceText" width="30%" height="100%"/>
+        </s:HGroup>
     </s:VGroup>
         
 	
