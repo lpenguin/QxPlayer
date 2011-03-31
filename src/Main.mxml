@@ -20,7 +20,7 @@
 	</fx:Script>-->
 	<fx:Declarations>
 		<cmp:Player id="player" playerView="{playerView}" />
-		<cmp:PlayerLoader player="{player}" path="testQuest.qxm" /> 
+		<cmp:PlayerLoader player="{player}" path="Gobsaur.json" /> 
 	<!--<cmp:PlayerLoader player="{player}" path="http://dl.dropbox.com/u/1305309/Flex/QxPlayer/bin/testQuest.qxm" />-->
 	</fx:Declarations>
     <cmp:PlayerView id="playerView"/>
