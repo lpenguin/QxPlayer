@@ -1,7 +1,9 @@
 package QuestPlayer 
 {
 	import QuestPlayer.PlayerAction;
-	
+	import QuestPlayer.Quest.Quest;
+    import QuestPlayer.Quest.Path;
+    import QuestPlayer.Quest.Location;
 	/**
 	 * ...
 	 * @author prian
@@ -12,11 +14,20 @@ package QuestPlayer
 		private var _text:String;
 		private var _stateText:String;
 		private var _triggers:Array = new Array();
+        
+//         public var locationPaths:* = function( loc:Location ):*{
+//             return loc.paths;
+//         }
+        
 		public function PlayerContext( player:Player ) 
 		{
 			_player = player;
 		}
 		
+// 		public function locationPaths( loc:Location ):*{
+//             return loc.paths;
+//         }
+        
 		public function get text():String 
 		{
 			return _text;
@@ -57,12 +68,12 @@ package QuestPlayer
 			//_triggers = value;
 		//}
 		
-		public function AddTrigger(f:* , name:String = null):void {
-			_triggers.push( {
-				func:f,
-				name:String(name)
-			});
-		}
+// 		public function AddTrigger(f:* , name:String = null):void {
+// 			_triggers.push( {
+// 				func:f,
+// 				name:String(name)
+// 			});
+// 		}
 /*		public function PlayTriggers():void {
 			for ( var i in _triggers ) {
 				_triggers[i].func();

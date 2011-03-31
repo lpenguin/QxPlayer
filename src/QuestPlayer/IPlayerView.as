@@ -14,6 +14,7 @@ package QuestPlayer
 		function set stateText(str:String):void;
 		function clearActions():void;
 		function addAction(action:PlayerAction):void;
+        function showMsg(str:String):void;
 		//function set actionHandler( handler:Function ):void;
 	}
 	

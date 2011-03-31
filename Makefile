@@ -38,7 +38,7 @@ all: bin/$(target).swf
 
 .PHONY: bin/$(target).swf
 bin/$(target).swf: $(sources)
-	$(compiler) src/$(target).mxml $(flags)  -load-config obj/QxPlayerConfig-linux.xml -output bin/$(target).swf
+	$(compiler) src/Main.mxml $(flags) -optimize=false  -load-config obj/QxPlayerConfig-linux.xml -output bin/$(target).swf
 	
 run: bin/$(target).swf
 	flashplayer bin/$(target).swf

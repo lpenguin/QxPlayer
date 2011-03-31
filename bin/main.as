@@ -62,7 +62,7 @@ function range(min, max){
 }
 
 function In( variable, range ){
-	return variable >= range.min && variable <=range.max;
+	return variable >= range.min && variable <= range.max;
 }
 
 function hide( name ){
@@ -155,13 +155,20 @@ function CheckConstraints( varName ){
 }
 
 function locationPaths( location ){
-    var result = [];
+//     trace( globals[rest] )
+    var rest;
     for( var i in location.paths){
-        if( checkConditions( location.paths[i]) )
-            result.push(location.paths[i]);
+        var c = checkConditions( location.paths[i]);
+//         trace(">> "+location.paths[i].id+" "+c)
+        if( c && c != "false"){
+//             trace(">> push ")
+            rest.push(location.paths[i]);
+        }
+            
     }
-    
-    return result;
+    for( var i in rest )
+        trace( rest[i].id )
+    return rest;
 }
         
 AddTrigger( function(){ ShowVars(); }, "stop", "showVars" );
