@@ -59,6 +59,9 @@ package QuestPlayer
                 //myTrace("for path "+path.id+" "+n);
                 return n;
             }
+			_context.locationPaths = function( location:Location ):* {
+				return location.paths;
+			};
 			_quest.Reset();
 			exposeDefinitions();
 		}
@@ -160,14 +163,15 @@ package QuestPlayer
 		private function ShowLocation( loc:Location ):void{
 			ClearView();
 			UpdateContext( loc.text );
-            var paths:Array;
-            try{
-                paths = eval( "locationPaths( location );", { "location":loc }) as Array;
-            }catch(e:Error){
-                myTrace(e.message);
-            }
+            var paths:Array = eval( "locationPaths( location )", { "location" : loc } ) as Array;
+			
+            //try{
+                //paths = eval( "locationPaths( location );", { "location":loc }) as Array;
+            //}catch(e:Error){
+                //myTrace(e.message);
+            //}
 			for( var i:String in paths ){
-				_playerView.addAction( new PlayerAction( loc.paths[i] as Path));
+				_playerView.addAction( new PlayerAction( paths[i] as Path));
 			}
 			playLocalActions( loc.actions, { "location":loc } );
 			ReadContext();

@@ -2,7 +2,7 @@
  "actions":"var m = 0;",
  "name":"[Not inplemented yet]",
  "description":"Несколько дней назад на необитаемой планете <ToPlanet>, система <ToStar>, при загадочных обстоятельствах пропали два наших исследователя, изучавших местную фауну. Неожиданно связь с ними оборвалась, и мы можем только теряться в догадках, что с ними произошло. <Ranger>, мы предлагаем вам отправиться в место их последней стоянки и выяснить, живы ли они. Если нет, то ваша задача - найти диск, на котором ученые фиксировали свои наблюдения. Если вы привезете его нам к <Date>, ваш гонорар составит <Money> cr, и как добросовестный исследователь, вы получите признание научной общественности нашей планеты.",
- "libraries":["main.as"],
+ "libraries":["mainFunctions.js"],
  "vers":[
   {"id":"L1",
    "actions":"//!bs:act(hide,Sitostj_gobzavra,null)\nhide('Sitostj_gobzavra');\n//!bs:end\n//!bs:act(hide,Nastroenie_gobzavra,null)\nhide('Nastroenie_gobzavra');\n//!bs:end\n//!bs:act(hide,Polozhenie_gobzavra,null)\nhide('Polozhenie_gobzavra');\n//!bs:end",
