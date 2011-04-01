@@ -24,10 +24,7 @@ package QuestPlayer
 			_player = player;
 		}
 		
-// 		public function locationPaths( loc:Location ):*{
-//             return loc.paths;
-//         }
-        
+    
 		public function get text():String 
 		{
 			return _text;
@@ -58,11 +55,22 @@ package QuestPlayer
 			stateText = str;
 		}
 		
+		public function sprintf( ... args):String{
+			if( !args.length )
+				return "";
+			var str:String = args.shift();
+			for( var i in args ){
+				str = str.replace("%"+i, args[i]);
+			}
+			return str;
+			
+		}
+	/*	
 		public function get triggers():Array 
 		{
 			return _triggers;
 		}
-		
+		*/
 		//public function set triggers(value:Array):void 
 		//{
 			//_triggers = value;

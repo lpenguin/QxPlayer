@@ -62,9 +62,9 @@ function hide( name ){
 
 function search( v, ranges ){
         for( var i in ranges )
-		if( In(v, ranges[i] ) )
-			return i;
-	return -1;
+        	if( In(v, ranges[i] ) )
+        		return i;
+        return -1;
 }
 
 function show( name ){
@@ -147,19 +147,15 @@ function CheckConstraints( varName ){
 }
 
 function locationPaths( location ){
-//     trace( globals[rest] )
-    var rest;
+    var rest = new Array();
     for( var i in location.paths){
         var c = checkConditions( location.paths[i]);
-//         trace(">> "+location.paths[i].id+" "+c)
+
         if( c && c != "false"){
-//             trace(">> push ")
             rest.push(location.paths[i]);
         }
-            
     }
-    for( var i in rest )
-        trace( rest[i].id )
+
     return rest;
 }
         

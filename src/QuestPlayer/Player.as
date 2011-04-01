@@ -62,6 +62,7 @@ package QuestPlayer
 			_context.locationPaths = function( location:Location ):* {
 				return location.paths;
 			};
+			_context.triggers = new Array();
 			_quest.Reset();
 			exposeDefinitions();
 		}
@@ -102,6 +103,7 @@ package QuestPlayer
             D.importFunction("typeof", function(v){
                 return typeof(v);
             });
+
 //			_context.exposeDefinition(_local, "local");
 //			_context.exposeDefinition(myTrace, "trace");
 //			_context.exposeDefinition(_playerView.text, "text");
@@ -161,6 +163,7 @@ package QuestPlayer
 			_playerView.clearActions();
 		}
 		private function ShowLocation( loc:Location ):void{
+			myTrace("Location: "+loc.id);
 			ClearView();
 			UpdateContext( loc.text );
             var paths:Array = eval( "locationPaths( location )", { "location" : loc } ) as Array;
@@ -179,6 +182,7 @@ package QuestPlayer
 		
 		private function ShowPath( path:Path ):void {
 //			var oldText:String =  _playerView.text;
+			myTrace("selected Path: "+path.id);
 			ClearView();
 			UpdateContext(path.text);
 			playLocalActions( path.actions, { "path":path } );
