@@ -40,16 +40,7 @@ var boundMap = {};
 var pathPriorityMap = {};
 var pathPassabilityMap = {}
 var pathShowOrderMap = {};
-
-function dump(v){
-    for(var i in v ){
-        trace( "i: "+v[i]);
-        if( v[i]){
-            trace("sub")
-            dump(v[i]);
-        }
-    }
-}
+var triggers = [];
 // function searchByName( name, objArray ){
 //     for( var i = 0; i < objArray.length; i++ )
 //         if( objArray[i].name == name )
@@ -70,11 +61,12 @@ function hide( name ){
 }
 
 function search( v, ranges ){
-	for( var i in ranges ){
+        for( var i in ranges )
 		if( In(v, ranges[i] ) )
 			return i;
 	return -1;
 }
+
 function show( name ){
 	showVarsMap[ name ] = true;
 }
@@ -172,5 +164,4 @@ function locationPaths( location ){
 }
         
 AddTrigger( function(){ ShowVars(); }, "stop", "showVars" );
-trace("main lib loaded");
 
