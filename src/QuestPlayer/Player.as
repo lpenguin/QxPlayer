@@ -55,7 +55,13 @@ package QuestPlayer
             _context.checkConditions = function( path:Path ){
                 if( !path.conditions )
                     return true;
-                var n = eval( path.conditions, {"path" : path} );
+                var n = eval( path.conditions, { "path" : path } );
+				if ( D.parseProgram( path.conditions ).stmts == null )
+					return true;
+				//var r = D.parseProgram( "2 > 3 " );
+				//if ( n === null ) {
+					//return true;
+				//}
                 //myTrace("for path "+path.id+" "+n);
                 return n;
             }
