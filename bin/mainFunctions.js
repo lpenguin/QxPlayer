@@ -40,6 +40,8 @@ var boundMap = {};
 var pathPriorityMap = {};
 var pathPassabilityMap = {}
 var pathShowOrderMap = {};
+var locationTextsMap = {};
+var locationEmptyMap = {};
 var triggers = [];
 // function searchByName( name, objArray ){
 //     for( var i = 0; i < objArray.length; i++ )
@@ -132,7 +134,14 @@ function SetPathShowOrder( pathId, value ){
 }
 
 function AddLocationTexts( locationId, f, texts ){
-	
+	locationTextsMap[locationId] = {
+		"func":f,
+		"texts":texts
+		};
+}
+
+function SetLocationEmpty( locationId ){
+	locationEmptyMap[locationId] = 1;
 }
 
 function CheckConstraints( varName ){
@@ -158,6 +167,55 @@ function locationPaths( location ){
 
     return rest;
 }
-        
+
+function addTmpPath( nextLocation, question, actionsStr ){
+	if( !question )
+		question = ">> Далее";
+	addPath( question, "", "", actionsStr, nextLocation );
+}
+
+function restorePaths(){
+	for( var i in paths ){
+		addPathObj( paths[i] );
+	}
+}
+
+function CheckLocationEmpty(){
+	if(! location )
+		return;
+		
+	if( locationEmptyMap[location.id] ){
+		trace( sprintf( "prev: %1", prevPathText ) );
+		if( !text )
+			text = prevPathText;
+	}else{
+		if( prevPathText ){
+			var curPaths = paths;
+			clearPaths();
+			addTmpPath( location, "Далее", "restorePaths();" );
+		}
+	}
+}
+
+function RemPrevPathText(){
+	if( path && path.id != "tmp" ){
+		prevPathText = text;
+	}
+}
+
+function TrLocationTexts(){
+	var t;
+	if( location ){
+		t = locationTextsMap[location.id] 
+		if(t){
+			var n = t.func.call();
+			text = t.texts[n];
+		}
+	}
+}
+
+AddTrigger( function(){ TrLocationTexts(); }, "start", "locationTexts" );
 AddTrigger( function(){ ShowVars(); }, "stop", "showVars" );
+AddTrigger( function(){ CheckLocationEmpty(); }, "stop", "locationEmpty" );
+AddTrigger( function(){ RemPrevPathText(); }, "stop", "pathTexts" );
 

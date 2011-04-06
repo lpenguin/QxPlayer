@@ -55,9 +55,9 @@ package QuestPlayer
             _context.checkConditions = function( path:Path ){
                 if( !path.conditions )
                     return true;
-                var n = eval( path.conditions, { "path" : path } );
-				if ( D.parseProgram( path.conditions ).stmts == null )
+                if ( D.parseProgram( path.conditions ).stmts == null )
 					return true;
+				var n = eval( path.conditions, { "path" : path } );
 				//var r = D.parseProgram( "2 > 3 " );
 				//if ( n === null ) {
 					//return true;
@@ -68,6 +68,24 @@ package QuestPlayer
 			_context.locationPaths = function( location:Location ):* {
 				return location.paths;
 			};
+			
+			_context.addPath = function( question, text, conditionsStr, actionsStr, nextLocation ){
+				//if( ! _context.location )
+					//return;
+				var path = new Path("tmp", question, text, actionsStr, "", conditionsStr, nextLocation);
+				_playerView.addAction( new PlayerAction(path) );
+			}
+			
+			_context.addPathObj = function( path ){
+				if( ! _context.location )
+					return;
+				_playerView.addAction( path );
+			}
+			
+			_context.clearPaths = function() {
+				_playerView.clearActions();
+			}
+			
 			_context.triggers = new Array();
 			_quest.Reset();
 			exposeDefinitions();
@@ -169,7 +187,7 @@ package QuestPlayer
 			_playerView.clearActions();
 		}
 		private function ShowLocation( loc:Location ):void{
-			myTrace("Location: "+loc.id);
+			//myTrace("Location: "+loc.id);
 			ClearView();
 			UpdateContext( loc.text );
             var paths:Array = eval( "locationPaths( location )", { "location" : loc } ) as Array;
@@ -182,20 +200,20 @@ package QuestPlayer
 			for( var i:String in paths ){
 				_playerView.addAction( new PlayerAction( paths[i] as Path));
 			}
-			playLocalActions( loc.actions, { "location":loc } );
+			playLocalActions( loc.actions, { "location":loc, "paths":paths } );
 			ReadContext();
 		}
 		
 		private function ShowPath( path:Path ):void {
 //			var oldText:String =  _playerView.text;
-			myTrace("selected Path: "+path.id);
+			//myTrace("selected Path: "+path.id);
 			ClearView();
 			UpdateContext(path.text);
 			playLocalActions( path.actions, { "path":path } );
 			ReadContext();
-			if ( _context.text ) {
-				_playerView.addAction( new PlayerAction( new Path( "tmp", "next>>", "", "", "", "", path.nextLocation ) ) );
-			}else
+			//if ( _context.text ) {
+				//_playerView.addAction( new PlayerAction( new Path( "tmp", "next>>", "", "", "", "", path.nextLocation ) ) );
+			//}else
 				ShowLocation( path.nextLocation );
 		}
 	}

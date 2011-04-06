@@ -60,7 +60,7 @@ package QuestPlayer
 				return "";
 			var str:String = args.shift();
 			for( var i in args ){
-				str = str.replace("%"+i, args[i]);
+				str = str.replace("%"+(i+1), args[i]);
 			}
 			return str;
 			
